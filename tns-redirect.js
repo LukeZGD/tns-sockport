@@ -12,12 +12,14 @@ window.onload = function() {
             window.location.replace('https://lukezgd.github.io/MeridianFix/substitute');
         }
     } else if (userAgent.includes("like Mac OS X")) {
-        if (glRenderer.includes("A9")) {
+        if (!userAgent.includes("10_")) {
+            window.location.replace('https://lukezgd.github.io/tns');
+        } else if (glRenderer.includes("A9")) {
             window.location.replace('https://lukezgd.github.io/tns-sockport/v0rtex');
         } else if (glRenderer.includes("PowerVR")) {
             window.location.replace('https://ios.cfw.guide/installing-socket/');
-        } else if (!userAgent.includes("10_")) {
-            window.location.replace('https://lukezgd.github.io/tns');
         }
+    } else {
+        window.location.replace('https://lukezgd.github.io/tns');
     }
 };
