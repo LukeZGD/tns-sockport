@@ -11,7 +11,7 @@ IGXX     = xcrun -sdk iphoneos clang++ -arch arm64
 FLAGS   ?= -Wall -O3 -fobjc-arc -miphoneos-version-min=10.0 $(CFLAGS)
 LFLAGS  ?= -Wl,-x -Wl,-dead_strip -flto -L$(wildcard $(DEP)/curl-*)/lib/.libs -lcurl -L$(DEP)/Meridian -lMeridian -L$(DEP)/doubleH3lix -ldoubleH3lix -L$(LIB) -loffsetfinder64 -limg4tool -lplist++ -lplist -lcompression -lz -larchive -F. -framework IOKit -framework Security $(LDFLAGS)
 LFLAGS  += -Wl,-exported_symbols_list,keep.txt
-FILES   := $(addsuffix .o, $(addprefix $(OBJ)/c/, $(DEP_C))) $(addsuffix .o, $(addprefix $(OBJ)/c++/, $(DEP_CXX)))
+FILES   := $(addsuffix .o, $(addprefix $(OBJ)/c/, $(DEP_C))) $(addsuffix .o, $(addprefix $(OBJ)/c++/, $(DEP_CXX))) $(OBJ)/c/avail_stub.o
 
 .PHONY: all clean distclean
 
@@ -19,6 +19,9 @@ all: $(TARGET)
 
 $(TARGET): $(wildcard $(DEP)/curl-*)/lib/.libs/libcurl.a $(DEP)/doubleH3lix/libdoubleH3lix.a $(DEP)/Meridian/libMeridian.a $(FILES)
 	$(IGXX) -o $@ $(FLAGS) $(GEN) $(FILES) $(LFLAGS)
+
+$(OBJ)/c/avail_stub.o: src/avail_stub.c | $(OBJ)/c
+	$(IGXX) -c -o $@ $(FLAGS) -xobjective-c -std=gnu11 $< -I$(INC)
 
 $(OBJ)/c/%.o: $(SRC)/%.m | $(OBJ)/c
 	$(IGXX) -c -o $@ $(FLAGS) -xobjective-c -std=gnu11 $< -I$(INC)
