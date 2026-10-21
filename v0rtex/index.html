@@ -22,8 +22,6 @@ glRenderer = debugInfo == null ? 'unknown' : gl.getParameter(debugInfo.UNMASKED_
 window.onload = function() {
     if (glRenderer.includes("A10")) {
         window.location.replace('https://lukezgd.github.io/MeridianFix');
-    } else if (!glRenderer.includes("A9")) {
-        window.location.replace('https://lukezgd.github.io/tns-sockport');
     }
 };
 </script>
